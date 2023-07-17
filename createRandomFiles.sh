@@ -21,14 +21,18 @@ do
     # Elige una extensión de archivo aleatoria de la lista
     ext=${ext_list[$RANDOM % ${#ext_list[@]}]}
 
-    # Crea un archivo con la extensión seleccionada
-    touch "$dir_path/file$i.$ext"
+    # Crea un archivo con la extensión seleccionada y con el formato de nombre indicado
+    filename="fileTest-$(date +%Y%m%d_%H%M%S)"
+    touch "$dir_path/$filename.$ext"
 
     # Genera un tamaño aleatorio de archivo en kilobytes no mayor al tamaño máximo proporcionado por el usuario
     size=$(shuf -i 1-$max_size -n 1)
 
     # Aumenta el tamaño del archivo a la cantidad especificada
-    dd if=/dev/zero of="$dir_path/file$i.$ext" bs=1024 count=$size >/dev/null 2>&1
+    dd if=/dev/zero of="$dir_path/$filename.$ext" bs=1024 count=$size >/dev/null 2>&1
+
+    # Espera 1 segundo antes de crear el próximo archivo
+    sleep 1
 done
 
 echo "Archivos creados con éxito en $dir_path."
